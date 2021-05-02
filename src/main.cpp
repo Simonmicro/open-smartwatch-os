@@ -168,4 +168,19 @@ void loop() {
     hal->flushCanvas();
     hal->deepSleep();
   }
+
+#ifdef DEBUG
+  //Print some system stats every second
+  static long lastStatistics = 0;
+  if(millis() - lastStatistics > 1000) {
+    Serial.println("––––––––––");
+    Serial.print("Heap: ");
+    Serial.print(ESP.getFreeHeap());
+    Serial.print(" of ");
+    Serial.println(ESP.getHeapSize());
+    Serial.print("Heap chunk: ");
+    Serial.println(heap_caps_get_largest_free_block(MALLOC_CAP_8BIT));
+    lastStatistics = millis();
+  }
+#endif
 }
