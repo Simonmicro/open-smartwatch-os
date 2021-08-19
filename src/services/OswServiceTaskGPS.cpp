@@ -3,7 +3,7 @@
 #include "osw_hal.h"
 
 void OswServiceTaskGPS::setup(OswHal* hal) {
-  OswServiceTask::setup(hal);
+  OswServiceTask::start<OswServiceTaskGPS>(hal);
 #if defined(GPS_EDITION) || defined(GPS_EDITION_ROTATED)
 
   hal->setupGps();
@@ -15,10 +15,8 @@ void OswServiceTaskGPS::setup(OswHal* hal) {
 #endif
 }
 
-void OswServiceTaskGPS::loop(OswHal* hal) {
+void OswServiceTaskGPS::loop() {
 #if defined(GPS_EDITION) || defined(GPS_EDITION_ROTATED)
-
-  // TODO: move to background service
-  hal->gpsParse();
+  this->m_hal->gpsParse();
 #endif
 }

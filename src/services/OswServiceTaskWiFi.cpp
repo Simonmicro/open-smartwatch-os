@@ -17,7 +17,7 @@
 #endif
 
 void OswServiceTaskWiFi::setup(OswHal* hal) {
-  OswServiceTask::setup(hal);
+  OswServiceTask::start<OswServiceTaskWiFi>(hal);
   this->enableWiFi();
   #ifdef OSW_FEATURE_WIFI_ONBOOT
   if(OswConfigAllKeys::wifiBootEnabled.get())
@@ -28,7 +28,7 @@ void OswServiceTaskWiFi::setup(OswHal* hal) {
 /**
  * This provides the "Auto-AP"-Feature (create AP while wifi is unavailable)
  */
-void OswServiceTaskWiFi::loop(OswHal* hal) {
+void OswServiceTaskWiFi::loop() {
   if(this->m_enableClient) {
     if(this->m_autoAPTimeout and WiFi.status() == WL_CONNECTED) {
       //Nice - reset timeout
@@ -65,7 +65,7 @@ void OswServiceTaskWiFi::loop(OswHal* hal) {
 #ifdef DEBUG
       Serial.println(String(__FILE__) + ": [NTP] Update finished (time of " + time(nullptr) + ")!");
 #endif
-      hal->setUTCTime(time(nullptr));
+      this->m_hal->setUTCTime(time(nullptr));
     }
   }
 
@@ -99,8 +99,8 @@ void OswServiceTaskWiFi::loop(OswHal* hal) {
   }
 }
 
-void OswServiceTaskWiFi::stop(OswHal* hal) {
-  OswServiceTask::stop(hal);
+void OswServiceTaskWiFi::stop() {
+  OswServiceTask::stop();
   this->disableWiFi();
 }
 

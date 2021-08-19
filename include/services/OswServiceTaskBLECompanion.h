@@ -21,10 +21,8 @@ struct NotificationDetails {
 
 class OswServiceTaskBLECompanion : public OswServiceTask {
     public:
-        OswServiceTaskBLECompanion(void){};
+        OswServiceTaskBLECompanion() : OswServiceTask("ble", 2048, 1000) {};
         void setup(OswHal* hal);
-        void loop(OswHal* hal);
-        void stop(OswHal* hal);
         ~OswServiceTaskBLECompanion(){};
 
         void setNotificationCallback(std::function<void(NotificationDetails)> cb);

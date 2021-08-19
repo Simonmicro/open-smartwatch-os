@@ -5,14 +5,11 @@
 
 class OswServiceTaskExample : public OswServiceTask {
  public:
-  OswServiceTaskExample(){};
+  OswServiceTaskExample() : OswServiceTask("example", 64, 10000) {};
   void setup(OswHal* hal);
-  void loop(OswHal* hal);
-  void stop(OswHal* hal);
+  void loop();
+  void stop();
   ~OswServiceTaskExample(){};
-
- private:
-  time_t printLimit = 0;
 };
 
 #endif

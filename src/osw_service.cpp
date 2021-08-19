@@ -1,10 +1,13 @@
 #include "osw_service.h"
 
-void OswServiceTask::setup(OswHal* hal) {
-  this->taskEnabled = true;
-}
-void OswServiceTask::stop(OswHal* hal) {
-  this->taskEnabled = false;
+void OswServiceTask::loop() {
+#ifdef DEBUG
+  Serial.println(String(__FILE__) + ": Service " + this->m_taskName + " is sleeping...");
+#endif
+  delay(this->m_taskSleepTime);
 }
 
-bool OswServiceTask::isRunning() { return this->taskEnabled; }
+void OswServiceTask::stop() {
+  vTaskDelete(&this->m_taskHandle);
+  this->m_taskHandle = nullptr;
+}

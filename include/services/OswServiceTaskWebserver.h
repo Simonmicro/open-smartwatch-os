@@ -10,10 +10,10 @@ class WebServer;
 
 class OswServiceTaskWebserver : public OswServiceTask {
  public:
-  OswServiceTaskWebserver(){};
+  OswServiceTaskWebserver() : OswServiceTask("webserver", 4096 + 8144 /* Basic webserver + OTA */, 100) {};
   void setup(OswHal* hal);
-  void loop(OswHal* hal);
-  void stop(OswHal* hal);
+  void loop();
+  void stop();
 
   void enableWebserver();
   void disableWebserver();

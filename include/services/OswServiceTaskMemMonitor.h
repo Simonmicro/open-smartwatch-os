@@ -5,15 +5,14 @@
 
 class OswServiceTaskMemMonitor : public OswServiceTask {
  public:
-  OswServiceTaskMemMonitor(){};
+  OswServiceTaskMemMonitor() : OswServiceTask("mmonitor", 1024, 10000) {};
   void setup(OswHal* hal);
-  void loop(OswHal* hal);
+  void loop();
   void updateLoopTaskStats();  // Call this from the main loop regulary!
   void printStats();
   ~OswServiceTaskMemMonitor(){};
 
  private:
-  unsigned core0high;
   unsigned core1high;
   unsigned heapHigh;
 };

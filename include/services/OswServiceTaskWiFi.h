@@ -8,10 +8,10 @@ class WiFiClass;
 
 class OswServiceTaskWiFi : public OswServiceTask {
  public:
-  OswServiceTaskWiFi(){};
+  OswServiceTaskWiFi() : OswServiceTask("wifi", 2048, 1000) {};
   void setup(OswHal* hal);
-  void loop(OswHal* hal); /// Calls enableWiFi();
-  void stop(OswHal* hal); /// Calls disableWiFi();
+  void loop(); /// Calls enableWiFi();
+  void stop(); /// Calls disableWiFi();
 
   //General netowrking stuff
   void setHostname();

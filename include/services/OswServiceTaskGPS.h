@@ -5,9 +5,9 @@
 
 class OswServiceTaskGPS : public OswServiceTask {
  public:
-  OswServiceTaskGPS(){};
+  OswServiceTaskGPS() : OswServiceTask("gps", 1024, 1000) {};
   void setup(OswHal* hal);
-  void loop(OswHal* hal);
+  void loop();
   ~OswServiceTaskGPS(){};
 };
 

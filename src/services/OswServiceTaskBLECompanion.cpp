@@ -56,7 +56,7 @@ class NotificationCallback: public BLECharacteristicCallbacks {
 };
 
 void OswServiceTaskBLECompanion::setup(OswHal* hal) {
-    OswServiceTask::setup(hal);
+    OswServiceTask::start<OswServiceTaskBLECompanion>(hal);
     BLEDevice::init(BLE_DEVICE_NAME);
     bleServer = BLEDevice::createServer();
     notificationService = bleServer->createService(NOTIFICATION_SERVICE_UID);
@@ -79,12 +79,4 @@ void OswServiceTaskBLECompanion::stopAdvertising() {
 
 void OswServiceTaskBLECompanion::setNotificationCallback(std::function<void(NotificationDetails)> cb) {
     notificationCallback = cb;
-}
-
-void OswServiceTaskBLECompanion::loop(OswHal* hal) {
-
-}
-
-void OswServiceTaskBLECompanion::stop(OswHal* hal) {
-    OswServiceTask::stop(hal);
 }

@@ -3,20 +3,13 @@
 #include "osw_hal.h"
 #include "services/OswServiceManager.h"
 
-void OswServiceTaskMemMonitor::setup(OswHal* hal) { OswServiceTask::setup(hal); }
+void OswServiceTaskMemMonitor::setup(OswHal* hal) { OswServiceTask::start<OswServiceTaskMemMonitor>(hal); }
 
 /**
- * Updates the current high water mark for the core on which this service is running on (core 0),
- * updates the high watermark for the heap and calls printStats() on changes
+ * Prints the current memory information
  */
-void OswServiceTaskMemMonitor::loop(OswHal* hal) {
-  unsigned core0 = uxTaskGetStackHighWaterMark(nullptr);
-  unsigned high = xPortGetMinimumEverFreeHeapSize();
-  if (core0 != this->core0high or this->heapHigh != high) {
-    this->core0high = core0;
-    this->heapHigh = high;
-    this->printStats();
-  }
+void OswServiceTaskMemMonitor::loop() {
+  this->printStats();
 }
 
 /**
@@ -36,12 +29,6 @@ void OswServiceTaskMemMonitor::updateLoopTaskStats() {
  */
 void OswServiceTaskMemMonitor::printStats() {
   Serial.println("========= Memory Monitor =========");
-  Serial.print("core 0 (high):\t");
-  Serial.print(OswServiceManager::getInstance().workerStackSize - this->core0high);
-  Serial.print("B of ");
-  Serial.print(OswServiceManager::getInstance().workerStackSize);
-  Serial.println("B");
-
   const unsigned maxCore1 =
       8192;  // This value is based on https://github.com/espressif/arduino-esp32/blob/master/cores/esp32/main.cpp
   Serial.print("core 1 (high):\t");
