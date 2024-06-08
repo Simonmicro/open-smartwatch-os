@@ -20,7 +20,7 @@ jobs:
           concurrent_skipping: "same_content_newer"
           skip_after_successful_duplicate: "true"
 
-  Find-packages:
+  find-packages:
     runs-on: ubuntu-latest
     needs: check_skip
     if: ${{ needs.check_skip.outputs.should_skip != 'true' }}
@@ -49,13 +49,13 @@ jobs:
       models_matrix: ${{ steps.get-models.outputs.models_matrix }}
 
   build-OSW:
-    needs: Find-packages
+    needs: find-packages
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        language: ${{ fromJson(needs.Find-packages.outputs.languages_matrix) }}
-        model: ${{ fromJson(needs.Find-packages.outputs.models_matrix) }}
+        language: ${{ fromJson(needs.find-packages.outputs.languages_matrix) }}
+        model: ${{ fromJson(needs.find-packages.outputs.models_matrix) }}
         build-configuration: [debug, release]
     steps:
       - name: Checkout repository and submodules
