@@ -96,7 +96,11 @@ jobs:
     needs: build-OSW
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
-      - uses: actions/download-artifact@v3 # using v3, because v4 is buggy and cannot download self-uploaded artifacts
+      - uses: actions/download-artifact@v3 # using v3, because v4 is buggy and cannot download self-uploaded artifacts (see https://github.com/actions/download-artifact/issues/290#issuecomment-1935024240)
+        with:
+          name: firmwares
+      - name: Flatten directory structure
+        run: mv firmwares/*.bin .
       - name: Create release and upload firmware to it
         uses: softprops/action-gh-release@v2
         with:
